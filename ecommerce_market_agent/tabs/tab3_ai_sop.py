@@ -1,8 +1,8 @@
-import streamlit as st
 import pandas as pd
+import streamlit as st
 
 
-def render(data: dict[str, pd.DataFrame]) -> None:
+def render(data: dict[str, pd.DataFrame], filters: dict) -> None:
     st.header("AI SOP (표준운영절차)")
     st.info(
         "이 탭은 수집된 트렌드 데이터를 바탕으로 AI가 운영 전략을 제안합니다.\n\n"

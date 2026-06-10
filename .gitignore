@@ -36,5 +36,15 @@ ecommerce_market_agent/eda.py
 ecommerce_market_agent/eda_report.md
 ecommerce_market_agent/images/
 
+# 문서 / 발표 슬라이드 (docs)
+docs/
+ecommerce_market_agent/eda_slides.md
+ecommerce_market_agent/eda_slides.html
+*.pptx
+*.pdf
+
+# 폰트 파일 (EDA 전용 — Streamlit은 Google Fonts CDN 사용)
+fonts/
+
 # 검증 스크립트 (개발용)
 validate_all.py

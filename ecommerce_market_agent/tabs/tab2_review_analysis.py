@@ -1,8 +1,8 @@
-import streamlit as st
 import pandas as pd
+import streamlit as st
 
 
-def render(data: dict[str, pd.DataFrame]) -> None:
+def render(data: dict[str, pd.DataFrame], filters: dict) -> None:
     st.header("리뷰 분석")
     st.info(
         "이 탭은 네이버 쇼핑 상품 리뷰 크롤링(BeautifulSoup) 데이터를 분석합니다.\n\n"
