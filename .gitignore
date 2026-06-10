@@ -27,3 +27,14 @@ Thumbs.db
 
 # 로그
 *.log
+
+# Claude Code 설정
+.claude/
+
+# EDA 산출물 (분석 전용, 배포 불필요)
+ecommerce_market_agent/eda.py
+ecommerce_market_agent/eda_report.md
+ecommerce_market_agent/images/
+
+# 검증 스크립트 (개발용)
+validate_all.py
