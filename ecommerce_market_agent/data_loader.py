@@ -39,6 +39,7 @@ def _get_credentials() -> Credentials:
     - Streamlit Cloud: st.secrets["gcp_service_account"] 사용
     - 로컬: .env에 지정된 JSON 파일 사용
     """
+    # ① Streamlit Cloud Secrets 우선 시도
     try:
         if "gcp_service_account" in st.secrets:
             return Credentials.from_service_account_info(
@@ -48,10 +49,22 @@ def _get_credentials() -> Credentials:
     except Exception:
         pass
 
-    creds_path = str(
+    # ② 로컬 JSON 파일 시도
+    creds_path = Path(
         ROOT_DIR / os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON", "credentials/service_account.json")
     )
-    return Credentials.from_service_account_file(creds_path, scopes=SCOPES)
+    if creds_path.exists():
+        return Credentials.from_service_account_file(str(creds_path), scopes=SCOPES)
+
+    # ③ 둘 다 없으면 앱 화면에 설정 안내 출력 후 중단
+    st.error(
+        "**🔑 Google 인증 정보가 설정되지 않았습니다.**\n\n"
+        "Streamlit Cloud 배포 시 아래 절차를 따라주세요:\n\n"
+        "1. share.streamlit.io → 앱 선택 → **Settings → Secrets**\n"
+        "2. 레포지토리의 `.streamlit/secrets.toml.example` 내용을 참고해 실제 값 입력\n"
+        "3. Save 후 앱 자동 재시작"
+    )
+    st.stop()
 
 
 @st.cache_data(ttl=3600, show_spinner=False)
