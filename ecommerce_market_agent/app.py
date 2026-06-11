@@ -20,30 +20,36 @@ MID_CATS_MAP: dict[str, list[str]] = {
 SUB_CATS_MAP: dict[str, list[str]] = {
     "휴대폰액세서리": ["케이스/파우치", "거치대", "보호필름", "충전기", "케이블", "배터리/젠더"],
 }
-WEEKS = ["1주차", "2주차", "3주차", "4주차", "5주차"]
-# 주차별 월내 일(day) 범위
-WEEK_DAY_RANGE: dict[str, tuple[int, int]] = {
-    "1주차": (1,  7),
-    "2주차": (8,  14),
-    "3주차": (15, 21),
-    "4주차": (22, 28),
-    "5주차": (29, 31),
-}
+# 주차별 월내 시작일 (종료일은 해당 월의 실제 일수로 보정)
+_WEEK_START_DAY = {1: 1, 2: 8, 3: 15, 4: 22, 5: 29}
 
 
-def _calc_date_range(
-    year: int, month: int, weeks: list[str]
-) -> tuple[pd.Timestamp, pd.Timestamp]:
-    """선택된 주차 목록을 해당 연/월의 날짜 범위로 변환합니다."""
+def _build_week_options(year: int, month: int) -> dict[str, tuple[datetime.date, datetime.date]]:
+    """선택된 연/월 기준으로 주차 레이블 → (시작일, 종료일) 매핑을 생성합니다."""
     last_day = calendar.monthrange(year, month)[1]
-    if not weeks:
-        return pd.Timestamp(year, month, 1), pd.Timestamp(year, month, last_day)
-    starts = [WEEK_DAY_RANGE[w][0] for w in weeks if w in WEEK_DAY_RANGE]
-    ends   = [min(WEEK_DAY_RANGE[w][1], last_day) for w in weeks if w in WEEK_DAY_RANGE]
-    return (
-        pd.Timestamp(year, month, min(starts)),
-        pd.Timestamp(year, month, max(ends)),
-    )
+    options: dict[str, tuple[datetime.date, datetime.date]] = {}
+    for w_num, start_d in _WEEK_START_DAY.items():
+        if start_d > last_day:
+            break
+        end_d = min(start_d + 6, last_day)
+        s = datetime.date(year, month, start_d)
+        e = datetime.date(year, month, end_d)
+        label = f"{w_num}주차  ({s.strftime('%Y-%m-%d')} ~ {e.strftime('%Y-%m-%d')})"
+        options[label] = (s, e)
+    return options
+
+
+def _weeks_to_date_range(
+    selected_labels: list[str],
+    week_options: dict[str, tuple[datetime.date, datetime.date]],
+) -> tuple[pd.Timestamp, pd.Timestamp]:
+    """선택된 주차 레이블 목록에서 전체 날짜 범위를 계산합니다."""
+    if not selected_labels:
+        all_dates = list(week_options.values())
+        return pd.Timestamp(all_dates[0][0]), pd.Timestamp(all_dates[-1][1])
+    starts = [week_options[lb][0] for lb in selected_labels if lb in week_options]
+    ends   = [week_options[lb][1] for lb in selected_labels if lb in week_options]
+    return pd.Timestamp(min(starts)), pd.Timestamp(max(ends))
 
 
 # ── 페이지 설정 ───────────────────────────────────────────────────────────────
@@ -102,7 +108,9 @@ with st.sidebar:
 
     # ④ 연도
     today = datetime.date.today()
-    sel_year: int = st.selectbox("연도", [2025, 2026], index=[2025, 2026].index(today.year) if today.year in [2025, 2026] else 1)
+    year_options = [2025, 2026]
+    default_year_idx = year_options.index(today.year) if today.year in year_options else 1
+    sel_year: int = st.selectbox("연도", year_options, index=default_year_idx)
 
     # ⑤ 월
     sel_month: int = st.selectbox(
@@ -112,18 +120,22 @@ with st.sidebar:
         format_func=lambda m: f"{m}월",
     )
 
-    # ⑥ 주차 (기본값 전체 선택)
-    sel_weeks: list[str] = st.multiselect(
+    # ⑥ 주차 — 연/월 기준 실제 날짜 범위 드롭다운
+    week_options = _build_week_options(sel_year, sel_month)
+    sel_week_labels: list[str] = st.multiselect(
         "주차",
-        options=WEEKS,
-        default=WEEKS,
+        options=list(week_options.keys()),
+        default=list(week_options.keys()),
         placeholder="선택 없으면 전체 표시",
     )
 
-    date_start, date_end = _calc_date_range(sel_year, sel_month, sel_weeks)
+    date_start, date_end = _weeks_to_date_range(sel_week_labels, week_options)
     st.caption(f"📆 {date_start.strftime('%Y-%m-%d')} ~ {date_end.strftime('%Y-%m-%d')}")
 
-# ── 세션 상태에 필터 저장 (모든 탭에서 참조 가능) ──────────────────────────────
+# ── 세션 상태에 필터 저장 ────────────────────────────────────────────────────
+# week 레이블에서 "N주차" 부분만 추출하여 저장
+sel_weeks = [lb.split("\xa0")[0].strip().split(" ")[0] for lb in sel_week_labels]
+
 st.session_state["filter_config"] = {
     "large_cat":  large_cat,
     "mid_cat":    mid_cat,
