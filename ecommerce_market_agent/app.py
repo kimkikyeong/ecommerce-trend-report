@@ -93,19 +93,16 @@ button[data-baseweb="tab"]:hover { color: #4a86e8 !important; }
 
 /* 메트릭 카드 */
 [data-testid="metric-container"] {
-    background: #f8faff;
-    border: 1px solid #e0e8f8;
+    background: rgba(74,134,232,0.06);
+    border: 1px solid rgba(74,134,232,0.2);
     border-radius: 10px;
     padding: 14px 18px !important;
 }
-[data-testid="stMetricLabel"] { font-size: 12px !important; color: #666 !important; }
-[data-testid="stMetricValue"] { font-size: 22px !important; font-weight: 700 !important; color: #1a3a6b !important; }
+[data-testid="stMetricLabel"] { font-size: 12px !important; }
+[data-testid="stMetricValue"] { font-size: 22px !important; font-weight: 700 !important; }
 
 /* 사이드바 */
-[data-testid="stSidebar"] { background: #f5f8ff !important; border-right: 1px solid #e0e8f8; }
-[data-testid="stSidebar"] h1,
-[data-testid="stSidebar"] h2,
-[data-testid="stSidebar"] h3 { color: #1a3a6b !important; }
+[data-testid="stSidebar"] { border-right: 1px solid rgba(74,134,232,0.2); }
 
 /* 일반 버튼 */
 [data-testid="baseButton-secondary"] {
@@ -129,7 +126,7 @@ small, .stCaption { font-size: 12px !important; color: #888 !important; }
 
 # 타이틀 — 작고 깔끔하게
 st.markdown(
-    '<h1 style="margin:0 0 2px;color:#1a3a6b;">📊 이커머스 트렌드 대시보드</h1>',
+    '<h1 style="margin:0 0 2px;">📊 이커머스 트렌드 대시보드</h1>',
     unsafe_allow_html=True,
 )
 st.caption("휴대폰 주변기기 카테고리 · 네이버 쇼핑 인사이트 데이터 기반")
