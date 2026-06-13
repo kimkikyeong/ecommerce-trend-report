@@ -1,10 +1,10 @@
-# 보안 자격증명 — 절대 커밋 금지
+# ── 보안 자격증명 — 절대 커밋 금지 ──────────────────────────────────────────
 .env
 credentials/
 *.json
 .streamlit/secrets.toml
 
-# Python
+# ── Python ────────────────────────────────────────────────────────────────────
 __pycache__/
 *.py[cod]
 *.pyo
@@ -15,37 +15,33 @@ env/
 dist/
 build/
 
-# IDE
+# ── 로그 ──────────────────────────────────────────────────────────────────────
+*.log
+batch_*.log
+streamlit_*.log
+
+# ── IDE / OS ──────────────────────────────────────────────────────────────────
 .vscode/
 .idea/
-
-# OS
 .DS_Store
 Thumbs.db
 
-# Jupyter
+# ── Jupyter ───────────────────────────────────────────────────────────────────
 .ipynb_checkpoints/
 
-# 로그
-*.log
-
-# Claude Code 설정
+# ── Claude Code 설정 ──────────────────────────────────────────────────────────
 .claude/
 
-# EDA 산출물 (분석 전용, 배포 불필요)
-ecommerce_market_agent/eda.py
-ecommerce_market_agent/eda_report.md
+# ── 문서 / 내부 가이드 (코드 동작과 무관) ────────────────────────────────────
+docs/
+
+# ── 폰트 / 정적 자산 ──────────────────────────────────────────────────────────
+fonts/
 ecommerce_market_agent/images/
 
-# 문서 / 발표 슬라이드 (docs)
-docs/
-ecommerce_market_agent/eda_slides.md
-ecommerce_market_agent/eda_slides.html
-*.pptx
-*.pdf
-
-# 폰트 파일 (EDA 전용 — Streamlit은 Google Fonts CDN 사용)
-fonts/
-
-# 검증 스크립트 (개발용)
+# ── 개발·디버깅용 임시 스크립트 ──────────────────────────────────────────────
+setup_verify.py
 validate_all.py
+ecommerce_market_agent/check_dates.py
+ecommerce_market_agent/run_prices.py
+run_prices.py
