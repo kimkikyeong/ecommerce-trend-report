@@ -35,7 +35,7 @@ _NEG_COL = "#e84a4a"
 
 def _sh(text: str, margin_top: int = 8) -> None:
     st.markdown(
-        f'<div style="font-size:15px;font-weight:700;color:#1a3a6b;'
+        f'<div style="font-size:15px;font-weight:700;'
         f'border-left:4px solid #4a86e8;padding-left:12px;'
         f'margin:{margin_top}px 0 10px;">{text}</div>',
         unsafe_allow_html=True,
@@ -226,7 +226,7 @@ def render(data: dict[str, pd.DataFrame], filters: dict) -> None:  # noqa: ARG00
                 xaxis_title="언급 횟수", yaxis_title="",
                 margin=dict(t=10, b=10, l=10, r=60),
                 height=300, bargap=0.45,
-                plot_bgcolor="white", paper_bgcolor="white",
+                plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
                 **_FONT,
             )
             fig_kw.update_xaxes(showgrid=True, gridcolor="#f0f0f0")
@@ -281,7 +281,7 @@ def render(data: dict[str, pd.DataFrame], filters: dict) -> None:  # noqa: ARG00
             fig_sc.update_traces(textposition="outside")
             fig_sc.update_layout(
                 showlegend=False, margin=dict(t=10, b=0), height=240,
-                bargap=0.45, plot_bgcolor="white", paper_bgcolor="white",
+                bargap=0.45, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
                 **_FONT,
             )
             fig_sc.update_yaxes(showgrid=True, gridcolor="#f0f0f0")
@@ -307,7 +307,7 @@ def render(data: dict[str, pd.DataFrame], filters: dict) -> None:  # noqa: ARG00
             fig_brand.update_layout(
                 yaxis=dict(autorange="reversed"),
                 margin=dict(t=10, b=0), height=240,
-                bargap=0.45, plot_bgcolor="white", paper_bgcolor="white",
+                bargap=0.45, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
                 **_FONT,
             )
             fig_brand.update_xaxes(showgrid=True, gridcolor="#f0f0f0")
@@ -364,7 +364,7 @@ def render(data: dict[str, pd.DataFrame], filters: dict) -> None:  # noqa: ARG00
             xaxis_title="리뷰 등록월", yaxis_title="VOC 건수",
             hovermode="x unified",
             margin=dict(t=10, b=10), height=300,
-            plot_bgcolor="white", paper_bgcolor="white",
+            plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
             **_FONT,
         )
         fig_trend.update_xaxes(showgrid=True, gridcolor="#f0f0f0")

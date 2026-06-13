@@ -29,9 +29,9 @@ _GUIDE_SHEET = "AI_DAILY_GUIDE"
 
 # 직군별 카드 설정: (표시 제목, action_plans JSON 키, 배경색, 강조색)
 _ROLES = [
-    ("🙋‍♂️ 퍼포먼스 마케터",  "마케터",   "#EBF5FF", "#1a6ed8"),
-    ("🙋‍♀️ 유통 MD",           "MD",       "#F0FFF4", "#2e8b57"),
-    ("🎨 상세페이지 기획자",    "디자이너", "#FFF8E7", "#c87000"),
+    ("🙋‍♂️ 퍼포먼스 마케터",  "마케터",   "rgba(26,110,216,0.08)",  "#1a6ed8"),
+    ("🙋‍♀️ 유통 MD",           "MD",       "rgba(46,139,87,0.08)",   "#2e8b57"),
+    ("🎨 상세페이지 기획자",    "디자이너", "rgba(200,112,0,0.08)",   "#c87000"),
 ]
 
 
@@ -96,7 +96,7 @@ def _parse_plans(raw: str) -> dict[str, list[str]]:
 
 def _sh(text: str, margin_top: int = 8) -> None:
     st.markdown(
-        f'<div style="font-size:15px;font-weight:700;color:#1a3a6b;'
+        f'<div style="font-size:15px;font-weight:700;'
         f'border-left:4px solid #4a86e8;padding-left:12px;'
         f'margin:{margin_top}px 0 10px;">{text}</div>',
         unsafe_allow_html=True,
@@ -267,7 +267,7 @@ def _render_snapshot(data: dict[str, pd.DataFrame], filters: dict) -> None:
             fig.update_layout(
                 margin=dict(t=5, b=5, l=10, r=90),
                 height=max(220, len(_brand_avg_chart) * 36), bargap=0.45,
-                plot_bgcolor="white", paper_bgcolor="white",
+                plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
                 xaxis=dict(showgrid=True, gridcolor="#f0f0f0", tickformat=",.0f"),
                 yaxis=dict(showgrid=False),
                 font=dict(family="'Noto Sans KR', 'Malgun Gothic', sans-serif", size=12),
@@ -328,7 +328,7 @@ def render(data: dict[str, pd.DataFrame], filters: dict) -> None:
     _sh("📌 마켓 & VOC 크로스 체크 인사이트")
     if insight:
         st.markdown(
-            f"""<div style="background:#F8F9FA;border:1px solid #DEE2E6;
+            f"""<div style="border:1px solid rgba(128,128,128,0.3);
                 border-radius:10px;padding:20px 24px;
                 font-size:15px;line-height:1.9;">{insight}</div>""",
             unsafe_allow_html=True,

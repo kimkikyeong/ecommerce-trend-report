@@ -27,7 +27,7 @@ _COL_SEL    = "#e84a4a"
 def _sh(text: str, margin_top: int = 8) -> None:
     """참조 디자인 스타일 섹션 헤더 (좌측 보더 강조)."""
     st.markdown(
-        f'<div style="font-size:15px;font-weight:700;color:#1a3a6b;'
+        f'<div style="font-size:15px;font-weight:700;'
         f'border-left:4px solid #4a86e8;padding-left:12px;'
         f'margin:{margin_top}px 0 10px;">{text}</div>',
         unsafe_allow_html=True,
@@ -333,8 +333,8 @@ def render(data: dict[str, pd.DataFrame], filters: dict) -> None:
                 margin=dict(t=10, b=0),
                 height=300,
                 legend=dict(orientation="h", y=-0.22, font_size=12),
-                plot_bgcolor="white",
-                paper_bgcolor="white",
+                plot_bgcolor="rgba(0,0,0,0)",
+                paper_bgcolor="rgba(0,0,0,0)",
                 **_FONT,
             )
             fig.update_xaxes(showgrid=True, gridcolor="#f0f0f0", gridwidth=1)
@@ -368,8 +368,8 @@ def render(data: dict[str, pd.DataFrame], filters: dict) -> None:
             margin=dict(t=10, b=0),
             height=280,
             legend=dict(orientation="h", y=-0.22, font_size=12),
-            plot_bgcolor="white",
-            paper_bgcolor="white",
+            plot_bgcolor="rgba(0,0,0,0)",
+            paper_bgcolor="rgba(0,0,0,0)",
             **_FONT,
         )
         fig_sr.update_xaxes(showgrid=True, gridcolor="#f0f0f0")
